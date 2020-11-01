@@ -3,6 +3,8 @@ import java.util.Arrays;
 import java.io.PrintStream;
 
 public class connect4 {
+	static Scanner scanner;
+
 	static boolean inBounds(int row, int column, int width, int height) {
 		return (row >= 0 && column >= 0 && row < height && column < width);
 	}
@@ -18,7 +20,7 @@ public class connect4 {
 				{row + i, column + i},
 				{row + i, column - i}
 			};
-			for (int j = 0; j < 4; j++) {
+			for (int j = 0; j < checkPositions.length; j++) {
 				if (!inBounds(checkPositions[j][0], checkPositions[j][1], board[row].length, board.length)) {
 					shouldLose[j] = true;
 					continue;
@@ -26,11 +28,11 @@ public class connect4 {
 				if (board[checkPositions[j][0]][checkPositions[j][1]] != compare) shouldLose[j] = true;
 			}
 		}
-		boolean shouldWin = false;
+
 		for (boolean i: shouldLose) {
-			if (!i) shouldWin = true;
+			if (!i) return compare;
 		}
-		return shouldWin? compare:0;
+		return 0;
 	}
 
 	static int winner(int[][] board) {
@@ -62,7 +64,6 @@ public class connect4 {
 	static void processMove(boolean isPlayer1, int[][] board) {
 		boolean hasPlaced = false;
 		System.out.println("Enter in your move");
-		Scanner scanner = new Scanner(System.in);
 		while (!hasPlaced) {
 			int move = scanner.nextInt() - 1;
 			if (move >= board[0].length || move < 0) {
@@ -83,10 +84,10 @@ public class connect4 {
 	public static void main(String[] args) {
 		boolean isPlayer1 = true;
 		int[][] board = new int[6][7];
+		scanner = new Scanner(System.in);
 
 		int winnerState = winner(board);
 		while (winnerState == 0) {
-			System.out.println(winnerState);
 			displayBoard(board);
 			processMove(isPlayer1, board);
 			winnerState = winner(board);
@@ -102,5 +103,6 @@ public class connect4 {
 				System.out.println("It's a tie.");
 				break;
 		}
+		scanner.close();
 	}
 }
