@@ -10,14 +10,15 @@ public class connect4 {
 	static int locationWinner(int row, int column, int[][] board) {
 		if (board[row][column] == 0) return 0;
 		int compare = board[row][column];
-		boolean[] shouldLose = new boolean[3];
+		boolean[] shouldLose = new boolean[4];
 		for (int i = 0; i < 4; i++) {
 			int[][] checkPositions = new int[][] {
 				{row, column + i},
 				{row + i, column},
-				{row + i, column + i}
+				{row + i, column + i},
+				{row + i, column - i}
 			};
-			for (int j = 0; j < 3; j++) {
+			for (int j = 0; j < 4; j++) {
 				if (!inBounds(checkPositions[j][0], checkPositions[j][1], board[row].length, board.length)) {
 					shouldLose[j] = true;
 					continue;
